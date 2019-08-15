@@ -1,0 +1,17 @@
+pipeline:
+  publish-pypy-x86:
+    image: plugins/docker
+    repo: docker.io/wangwenpei/pypy
+    dockerfile: 3.6/alpine3.9/Dockerfile
+    daemon_off: true
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+    tags:
+      - ${DRONE_COMMIT_BRANCH/stable/latest}
+      - ${DRONE_COMMIT_BRANCH}
+      - ${DRONE_COMMIT_BRANCH}-${DRONE_COMMIT_SHA:8:6}
+      - ${DRONE_COMMIT_SHA:8:6}
+    when:
+      branch: [ stable ]
+      event: [ push ]
+      local: false
